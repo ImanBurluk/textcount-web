@@ -1,0 +1,21 @@
+<main style="max-width:720px;margin:2rem auto;font-family:system-ui;">
+    <h1>TextCount Demo</h1>
+    <textarea id="text" rows="8" style="width:100%;"></textarea>
+    <div style="margin-top:1rem;">
+        <button id="btn">Проанализировать</button>
+    </div>
+    <pre id="out" style="margin-top:1rem;background:#f6f8fa;padding:1rem;white-space:pre-wrap;"></pre>
+</main>
+<script>
+    const btn=document.getElementById('btn'), out=document.getElementById('out');
+    btn.addEventListener('click', async () => {
+        out.textContent='Отправка...';
+        const text=document.getElementById('text').value;
+        const res=await fetch('/api/v1/textcount',{
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify({text})
+        });
+        out.textContent=JSON.stringify(await res.json(), null, 2);
+    });
+</script>
