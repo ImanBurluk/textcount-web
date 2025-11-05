@@ -23,14 +23,10 @@ final class TextCountController
         // Основной подсчёт
         $length = (new TextCount())->count($text);
 
-        // (опционально) если нужно строго «мультибайтово» под конкретную кодировку:
-        // $lengthUtf8 = (new TextCount())->countMb($text, 'UTF-8');
-
         return new JsonResponse([
             'ok'   => true,
             'data' => [
                 'length' => $length,
-                // 'length_utf8' => $lengthUtf8, // если понадобится
             ],
         ]);
     }
