@@ -4,9 +4,10 @@
     "minimum-stability": "stable",
     "prefer-stable": true,
     "require": {
-        "php": ">=7.2.5",
+        "php": "^7.4",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "doctrine/annotations": "^1.14",
         "doctrine/dbal": "^3",
         "doctrine/doctrine-bundle": "^2.13",
         "doctrine/doctrine-migrations-bundle": "^3.5",
@@ -43,6 +44,7 @@
         "twig/twig": "^2.12|^3.0"
     },
     "config": {
+        "platform": { "php": "7.4.33" },
         "allow-plugins": {
             "composer/package-versions-deprecated": true,
             "php-http/discovery": true,

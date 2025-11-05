@@ -1,3 +1,12 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
+home:
+  path: /
+  controller: App\Controller\PageController::index
+  methods: [GET]
+
+api_textcount:
+  path: /api/v1/textcount
+  controller: App\Controller\Api\TextCountController
+  methods: [POST]
