@@ -3,7 +3,8 @@ namespace App\Controller\Api;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Process\Process;
+use Imanburluk\TextCount\TextCount;            // фасад
+use Imanburluk\TextCount\Factory\TextCountFactory; // фабрика (необязательно, но явно)
 
 final class TextCountController
 {
@@ -16,11 +17,21 @@ final class TextCountController
             return new JsonResponse(['error' => 'text is required'], 400);
         }
 
-        // Быстро и стабильно через бинарник пакета
-        $proc = new Process([PHP_BINARY, './vendor/bin/textcount', $text]);
-        $proc->mustRun();
-        $length = (int)trim($proc->getOutput());
+        // Явно укажем фабрику (выберет mb_strlen при наличии mbstring)
+        TextCount::setFactory(new TextCountFactory());
 
-        return new JsonResponse(['ok' => true, 'data' => ['length' => $length]]);
+        // Основной подсчёт
+        $length = (new TextCount())->count($text);
+
+        // (опционально) если нужно строго «мультибайтово» под конкретную кодировку:
+        // $lengthUtf8 = (new TextCount())->countMb($text, 'UTF-8');
+
+        return new JsonResponse([
+            'ok'   => true,
+            'data' => [
+                'length' => $length,
+                // 'length_utf8' => $lengthUtf8, // если понадобится
+            ],
+        ]);
     }
 }
